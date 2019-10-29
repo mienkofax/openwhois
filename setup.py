@@ -1,7 +1,7 @@
 import sys, os
 import setuptools
 
-version = '0.7.2'
+version = '0.7.3'
 
 setuptools.setup(
     name='openwhois',
