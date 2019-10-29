@@ -13,7 +13,7 @@ import os
 import subprocess
 import socket
 from .parser import WhoisEntry
-from .whois import NICClient
+from .openwhois import NICClient
 
 
 # thanks to https://www.regextester.com/104038
