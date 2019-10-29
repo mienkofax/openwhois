@@ -90,11 +90,14 @@ def extract_domain(url):
 
     # find the longest suffix match
     domain = b''
+    latest_valid_domain = b''
     for section in reversed(url.split('.')):
         if domain:
             domain = b'.' + domain
+        latest_valid_domain = domain
         domain = section.encode('utf-8') + domain
         if domain not in suffixes:
+            domain = latest_valid_domain
             break
     return domain.decode('utf-8')
 
