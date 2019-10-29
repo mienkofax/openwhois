@@ -4,7 +4,7 @@ import setuptools
 version = '0.7.2'
 
 setuptools.setup(
-    name='python-whois',
+    name='openwhois',
     version=version,
     description="Whois querying and parsing of domain registration information.",
     long_description='',
@@ -26,8 +26,8 @@ setuptools.setup(
     author_email='richard.penman@gmail.com',
     url='https://github.com/richardpenman/pywhois',
     license='MIT',
-    packages=['whois'],
-    package_dir={'whois':'whois'},
+    packages=['openwhois'],
+    package_dir={'openwhois':'openwhois'},
     extras_require={
         'better date conversion': ["python-dateutil"]
     },
