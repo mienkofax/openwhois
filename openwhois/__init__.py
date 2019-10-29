@@ -93,12 +93,12 @@ def extract_domain(url):
     domain = b''
     latest_valid_domain = b''
     for section in reversed(url.split('.')):
+        latest_valid_domain = domain
         if domain:
             domain = b'.' + domain
-        latest_valid_domain = domain
         domain = section.encode('utf-8') + domain
         if domain not in suffixes:
-            domain = latest_valid_domain
+            domain = latest_valid_dosmain
             break
     return domain.decode('utf-8')
 
