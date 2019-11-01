@@ -334,6 +334,10 @@ class WhoisEntry(dict):
             return WhoisUA(domain, text)
         elif domain.endswith('.int'):
             return WhoisInt(domain, text)
+        elif domain.endswith('.kz'):
+            return WhoisKz(domain, text)
+        elif domain.endswith('.hu'):
+            return WhoisHu(domain, text)
         else:
             return WhoisEntry(domain, text)
 
@@ -2606,6 +2610,43 @@ class WhoisInt(WhoisEntry):
 
     def __init__(self, domain, text):
         if text.strip() == 'No Data Found':
+            raise PywhoisError(text)
+        else:
+            WhoisEntry.__init__(self, domain, text, self.regex)
+
+
+class WhoisHu(WhoisEntry):
+    """Whois parser for .int domains
+    """
+    regex = {
+        'domain_name': 'domain: *(.+)',
+        'creation_date': 'record created: *(.+)',
+    }
+
+    def __init__(self, domain, text):
+        if text.strip() == 'No Data Found':
+            raise PywhoisError(text)
+        else:
+            WhoisEntry.__init__(self, domain, text, self.regex)
+
+
+class WhoisKz(WhoisEntry):
+    """Whois parser for .kz domains
+    """
+    regex = {
+        'domain_name': 'Domain Name............: *(.+)',
+        'registar_created': 'Registar Created: *(.+)',
+        'curent_registrar': 'Current Registar: *(.+)',
+        'creation_date': 'Domain created: *(.+)',
+        'lats_modified': 'Last modified : *(.+)',
+        'name_servers': 'server.*: *(.+)',  # list of name servers
+        'status': ' (.+?) -',  # list of statuses
+        'emails': EMAIL_REGEX,  # list of email addresses
+        'org': 'Organization Name.*: *(.+)'
+    }
+
+    def __init__(self, domain, text):
+        if text.strip() == 'No entries found':
             raise PywhoisError(text)
         else:
             WhoisEntry.__init__(self, domain, text, self.regex)
