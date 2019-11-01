@@ -332,6 +332,8 @@ class WhoisEntry(dict):
             return WhoisVe(domain, text)
         elif domain.endswith('.ua'):
             return WhoisUA(domain, text)
+        elif domain.endswith('.int'):
+            return WhoisInt(domain, text)
         else:
             return WhoisEntry(domain, text)
 
@@ -2588,6 +2590,22 @@ class WhoisNo(WhoisEntry):
 
     def __init__(self, domain, text):
         if 'No match' in text:
+            raise PywhoisError(text)
+        else:
+            WhoisEntry.__init__(self, domain, text, self.regex)
+
+
+class WhoisInt(WhoisEntry):
+    """Whois parser for .int domains
+    """
+    regex = {
+        'domain_name':     'domain: *(.+)',
+        'updated_date':    'changed: *(.+)',
+        'creation_date':   'created: *(.+)',
+    }
+
+    def __init__(self, domain, text):
+        if text.strip() == 'No Data Found':
             raise PywhoisError(text)
         else:
             WhoisEntry.__init__(self, domain, text, self.regex)
